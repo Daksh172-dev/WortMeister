@@ -1,10 +1,18 @@
+import pytest
 from fastapi.testclient import TestClient
 
+import app.services.embeddings as embedding_module
 from app.main import app
 
 
-client = TestClient(app)
 HEADERS = {"X-Internal-Api-Key": "local-ai-internal-key"}
+
+
+@pytest.fixture()
+def client(monkeypatch: pytest.MonkeyPatch) -> TestClient:
+    monkeypatch.setattr(embedding_module, "SentenceTransformer", None)
+    with TestClient(app) as test_client:
+        yield test_client
 
 
 def learner_context() -> dict:
@@ -18,13 +26,13 @@ def learner_context() -> dict:
     }
 
 
-def test_health() -> None:
+def test_health(client: TestClient) -> None:
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["status"] == "UP"
 
 
-def test_internal_auth_required() -> None:
+def test_internal_auth_required(client: TestClient) -> None:
     response = client.post(
         "/internal/v1/vocabulary/extract",
         json={"text": "Der Tisch ist frei.", "context": learner_context()},
@@ -32,7 +40,7 @@ def test_internal_auth_required() -> None:
     assert response.status_code == 401
 
 
-def test_vocabulary_extraction() -> None:
+def test_vocabulary_extraction(client: TestClient) -> None:
     response = client.post(
         "/internal/v1/vocabulary/extract",
         headers=HEADERS,
@@ -42,7 +50,7 @@ def test_vocabulary_extraction() -> None:
     assert response.json()["terms"]
 
 
-def test_adaptive_difficulty() -> None:
+def test_adaptive_difficulty(client: TestClient) -> None:
     response = client.post(
         "/internal/v1/learning/adaptive-difficulty",
         headers=HEADERS,
@@ -52,7 +60,7 @@ def test_adaptive_difficulty() -> None:
     assert response.json()["recommended_difficulty"] == 4
 
 
-def test_embeddings_and_similarity() -> None:
+def test_embeddings_and_similarity(client: TestClient) -> None:
     embedding_response = client.post(
         "/internal/v1/embeddings",
         headers=HEADERS,
