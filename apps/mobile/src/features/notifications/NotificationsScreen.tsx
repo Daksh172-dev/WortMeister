@@ -1,4 +1,6 @@
+import React from "react";
 import * as Notifications from "expo-notifications";
+import { SchedulableTriggerInputTypes } from "expo-notifications";
 import { useQuery } from "@tanstack/react-query";
 import { BellRing } from "lucide-react-native";
 import { Text, View } from "react-native";
@@ -6,14 +8,21 @@ import { api } from "@/shared/api/client";
 import { AppButton, Card, PremiumHeader, Screen } from "@/shared/components/ui";
 
 export function NotificationsScreen() {
-  const notifications = useQuery({ queryKey: ["notifications"], queryFn: async () => (await api.get("/notifications")).data.data });
+  const notifications = useQuery({ 
+    queryKey: ["notifications"], 
+    queryFn: async () => (await api.get("/notifications")).data.data 
+  });
 
   async function schedule() {
     await Notifications.scheduleNotificationAsync({
       content: { title: "WortMeister", body: "Your German streak is waiting." },
-      trigger: { seconds: 5 }
+      trigger: { 
+        type: SchedulableTriggerInputTypes.TIME_INTERVAL,
+        seconds: 5 
+      }
     });
   }
+  
   return (
     <Screen>
       <PremiumHeader eyebrow="Notifications" title="Stay in rhythm." subtitle="Gentle reminders for streaks, reviews, weekly challenges, and speaking practice." />
