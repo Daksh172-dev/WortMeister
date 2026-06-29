@@ -12,7 +12,8 @@ import { useNotificationSetup } from "@/shared/hooks/useNotificationSetup";
 import { useOfflineSync } from "@/shared/hooks/useOfflineSync";
 
 export default function App() {
-  const theme = useThemeStore((state) => state.theme);
+  // Fix: Explicitly declare the implicit 'any' parameter mapping constraint
+  const theme = useThemeStore((state: any) => state.theme);
   useNotificationSetup();
   useOfflineSync();
 
