@@ -1,6 +1,6 @@
-import { MMKV } from "react-native-mmkv";
+import * as NativeMMKV from "react-native-mmkv";
 
-export const mmkv = new MMKV({ id: "wortmeister" });
+export const mmkv = new NativeMMKV.MMKV({ id: "wortmeister" });
 
 export const appStorage = {
   getItem: (name: string) => {
