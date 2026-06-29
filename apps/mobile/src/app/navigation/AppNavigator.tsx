@@ -1,3 +1,4 @@
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Bell, Compass, Home, Mic, Settings, Trophy, User } from "lucide-react-native";
@@ -37,18 +38,18 @@ function MainTabs() {
         tabBarLabelStyle: { fontWeight: "700" }
       }}
     >
-      <Tabs.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: ({ color }) => <Home color={color} /> }} />
-      <Tabs.Screen name="Discover" component={DiscoverScreen} options={{ tabBarIcon: ({ color }) => <Compass color={color} /> }} />
-      <Tabs.Screen name="Practice" component={PracticeHubScreen} options={{ tabBarIcon: ({ color }) => <Mic color={color} /> }} />
-      <Tabs.Screen name="Profile" component={ProfileScreen} options={{ tabBarIcon: ({ color }) => <User color={color} /> }} />
+      <Tabs.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: ({ color }: { color: string }) => <Home color={color} /> }} />
+      <Tabs.Screen name="Discover" component={DiscoverScreen} options={{ tabBarIcon: ({ color }: { color: string }) => <Compass color={color} /> }} />
+      <Tabs.Screen name="Practice" component={PracticeHubScreen} options={{ tabBarIcon: ({ color }: { color: string }) => <Mic color={color} /> }} />
+      <Tabs.Screen name="Profile" component={ProfileScreen} options={{ tabBarIcon: ({ color }: { color: string }) => <User color={color} /> }} />
     </Tabs.Navigator>
   );
 }
 
 export function AppNavigator() {
   const { colors } = useTheme();
-  const accessToken = useAuthStore((state) => state.accessToken);
-  const onboarded = useAuthStore((state) => state.hasCompletedOnboarding);
+  const accessToken = useAuthStore((state: any) => state.accessToken);
+  const onboarded = useAuthStore((state: any) => state.hasCompletedOnboarding);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }}>
