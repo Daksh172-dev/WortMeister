@@ -1,0 +1,50 @@
+{
+  "info": {
+    "name": "WortMeister API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type", "value": "application/json"}],
+        "url": "{{apiBaseUrl}}/auth/register",
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"learner@wortmeister.local\",\"password\":\"StrongPass123\",\"displayName\":\"Learner\"}"
+        }
+      }
+    },
+    {
+      "name": "Profile",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+        "url": "{{apiBaseUrl}}/me"
+      }
+    },
+    {
+      "name": "Lessons",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Authorization", "value": "Bearer {{accessToken}}"}],
+        "url": "{{apiBaseUrl}}/learning/lessons"
+      }
+    },
+    {
+      "name": "Admin Dashboard",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "Authorization", "value": "Bearer {{adminAccessToken}}"}],
+        "url": "{{adminBaseUrl}}/dashboard"
+      }
+    }
+  ],
+  "variable": [
+    {"key": "apiBaseUrl", "value": "http://localhost:8080/api/v1"},
+    {"key": "adminBaseUrl", "value": "http://localhost:8080/api/admin/v1"},
+    {"key": "accessToken", "value": ""},
+    {"key": "adminAccessToken", "value": ""}
+  ]
+}

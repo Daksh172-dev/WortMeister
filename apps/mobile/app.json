@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "WortMeister",
+    "slug": "wortmeister",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "wortmeister",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.wortmeister.mobile"
+    },
+    "android": {
+      "package": "com.wortmeister.mobile",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#101113"
+      },
+      "permissions": ["RECORD_AUDIO", "POST_NOTIFICATIONS"]
+    },
+    "plugins": [
+      "expo-notifications",
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow WortMeister to record your voice for pronunciation practice."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow WortMeister to use images for visual vocabulary learning."
+        }
+      ]
+    ]
+  }
+}

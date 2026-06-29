@@ -1,0 +1,23 @@
+name: Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        default: staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate required secrets
+        run: |
+          test -n "${{ secrets.DEPLOY_HOST }}"
+          test -n "${{ secrets.DEPLOY_USER }}"
+      - name: Deployment plan
+        run: |
+          echo "Build images, push to registry, run migrations, deploy containers, and execute smoke checks."
