@@ -27,11 +27,12 @@ export function useVoiceRecorder() {
     await Audio.requestPermissionsAsync();
     await Audio.setAudioModeAsync({ allowsRecordingIOS: true, playsInSilentModeIOS: true });
     
-    // Fix: Explicitly pass an empty object configuration constraint as the first argument 
-    // to satisfy the signature requirements of modern expo-av versions
+    // Fix: Pass the preset options FIRST, and the status callback/object SECOND.
+    // Also pass an empty object configuration constraint to satisfy the second signature slot.
     const created = await Audio.Recording.createAsync(
+      Audio.RecordingOptionsPresets.HIGH_QUALITY,
       {},
-      Audio.RecordingOptionsPresets.HIGH_QUALITY
+      true // optional: sets initial recording state to true automatically
     );
     
     recording.current = created.recording;
